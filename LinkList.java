@@ -113,14 +113,116 @@ public class LinkList {
         }
         return -1;
     }
+    //  public static void main(String[] args){
+    //     LinkList ll = new LinkList();
+    //     ll.addfirst(2);
+    //     ll.addfirst(1);
+    //     ll.addlast(4);
+    //     ll.addlast(5);
+    //     ll.addATindex(2, 3);
+
+    //     System.out.println(ll.itrsearch(3));
+    // }
+    public int helper(node head, int key){
+        if(head == null){
+            return -1;
+        }
+        if(head.data == key){
+            return 0;
+        }
+        int idx = helper(head.next, key);
+        if(idx == -1){
+            return -1;
+        }
+        return idx+1;
+    }
+    public int recursiveSearch( int key){
+        return helper(head, key);
+    }
+    public void reverseLL(){
+        node prev = null;
+        node curr = tail = head;
+        node next;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+    }
+    public void removeNthfromEnd(int n){
+        // calculate size
+        int sz = 0;
+        node temp = head;
+        while (temp != null) {
+            temp = temp.next;
+            sz++;
+        }
+        if(n == sz){
+            head = head.next;
+            return;
+        }
+        //sz-1
+        int i = 1;
+        node prev = head;
+        int itofind = sz-n;
+        while (i < itofind) {
+            prev = prev.next;
+            i++;
+        }
+        prev.next = prev.next.next;
+        return;
+    }
+    public node findmid(node head){
+        node slow = head;
+        node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow; // slow is my mid node
+    }
+    public boolean ispalindrome(){
+        if(head == null || head.next == null){
+            return true;
+        }
+        //step 1 find mid
+        node midNode = findmid(head);
+
+        //step 2 2nd half reverse
+        node prev = null;
+        node curr = midNode;
+        node next;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        node right = prev;
+        node left = head;
+
+        //step 3 check left & right part
+        while (right != null) {
+            if(left.data != right.data){
+                return false;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        return true;
+    }
     public static void main(String[] args){
         LinkList ll = new LinkList();
         ll.addfirst(2);
         ll.addfirst(1);
-        ll.addlast(4);
-        ll.addlast(5);
-        ll.addATindex(2, 3);
-
-        System.out.println(ll.itrsearch(3));
+        ll.addlast(3);
+        ll.addlast(2);
+        ll.addlast(1);
+        ll.printll();
+        System.out.println(ll.ispalindrome());
     }
 }
