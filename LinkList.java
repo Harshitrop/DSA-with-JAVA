@@ -176,7 +176,7 @@ public class LinkList {
     }
     public node findmid(node head){
         node slow = head;
-        node fast = head;
+        node fast = head.next;
 
         while (fast != null && fast.next != null) {
             slow = slow.next;
@@ -215,14 +215,100 @@ public class LinkList {
         }
         return true;
     }
+    public boolean iscycle(){
+        node fast = head;
+        node slow = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if(fast == slow){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void removecycle(){
+        //detect cycle
+        node fast = head;
+        node slow = head;
+        boolean cycle = false;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if(fast == slow){
+                cycle =  true;
+                break;
+            }
+        }
+        if(cycle == false){
+            return;
+        }
+
+        //find metting point
+        slow = head;
+        node prev = head;
+        while (slow != fast) {
+            prev = fast;
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        //remove cycle
+        prev.next = null;
+    }
+
+    private node merge(node head1, node head2){
+        node mergell = new node(-1);
+        node temp = mergell;
+
+        while (head1 != null && head2 != null) {
+            if(head1.data <= head2.data){
+                temp.next = head1;
+                head1 = head1.next;
+                temp = temp.next;
+            }else{
+                temp.next = head2;
+                head2 = head2.next;
+                temp = temp.next;
+            }
+        }
+        while (head1 != null) {
+            temp.next = head1;
+            head1 = head1.next;
+            temp = temp.next;
+        }
+        while (head2 != null) {
+            temp.next = head2;
+            head2 = head2.next;
+            temp = temp.next;
+        }
+        return mergell.next;
+    }
+    public node mergesort(node head){
+        if(head == null || head.next == null){
+            return head;
+        }
+        //find mid
+        node mid = findmid(head);
+        // left & right MS
+        node rightHaed = mid.next;
+        mid.next = null;
+        node newleft = mergesort(head);
+        node newright = mergesort(rightHaed);
+
+        //merge
+        return merge(newleft, newright);
+    }
     public static void main(String[] args){
         LinkList ll = new LinkList();
-        ll.addfirst(2);
         ll.addfirst(1);
+        ll.addfirst(2);
         ll.addlast(3);
-        ll.addlast(2);
-        ll.addlast(1);
+        ll.addlast(4);
+        ll.addlast(5);
         ll.printll();
-        System.out.println(ll.ispalindrome());
+        //System.out.println(ll.ispalindrome());
+        ll.head = ll.mergesort(head);
+        ll.printll();
     }
 }
