@@ -299,16 +299,47 @@ public class LinkList {
         //merge
         return merge(newleft, newright);
     }
+
+    public void zigzag(){
+        //find mid
+        node mid = findmid(head);
+
+        //2nd half reverse
+        node prev = null;
+        node curr = mid.next;
+        mid.next = null;
+        node next;
+        while(curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        node right = prev;
+        node left = head;
+        node nextL, nextR;
+
+        //alternate merging
+        while (left != null && right != null) {
+            nextL = left.next;
+            left.next = right;
+            nextR = right.next;
+            right.next = nextL;
+            right = nextR;
+            left = nextL;
+        }
+    }
     public static void main(String[] args){
         LinkList ll = new LinkList();
         ll.addfirst(1);
-        ll.addfirst(2);
+        ll.addlast(2);
         ll.addlast(3);
         ll.addlast(4);
         ll.addlast(5);
         ll.printll();
         //System.out.println(ll.ispalindrome());
-        ll.head = ll.mergesort(head);
+        //ll.head = ll.mergesort(head);
+        ll.zigzag();
         ll.printll();
     }
 }
