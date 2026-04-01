@@ -1,6 +1,6 @@
 import java.util.*;
 
-import javax.print.DocFlavor.STRING;
+// import javax.print.DocFlavor.STRING;
 public class QueueB {
     //-------- implementing queue using linked list -------------
     // static class Node {
@@ -236,14 +236,14 @@ public class QueueB {
 
     //reverse the Queue
     public static void reverse(Queue<Integer> q){
-        Stack<Integer> s = new Stack<Integer>();
+        //Stack<Integer> s = new Stack<Integer>();
 
-        while (!q.isEmpty()) {
-            s.push(q.remove());
-        }
-        while(!s.isEmpty()){
-            q.add(s.pop());
-        }
+        // while (!q.isEmpty()) {
+        //     s.push(q.remove());
+        // }
+        // while(!s.isEmpty()){
+        //     q.add(s.pop());
+        // }
     }
 
     //First non repeating character in a stream of characters

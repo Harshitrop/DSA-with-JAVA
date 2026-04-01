@@ -113,11 +113,11 @@ public class Divide_Conquer {
         if(si >= ei){
             return;
         }
-        int mid = si + ( ei - si )/2;
+        //int mid = si + ( ei - si )/2;
         
 
     }
     public static void main(String[] args){
-        String str [] = {"sun", "earth", "mars", "mercury"};
+        //String str [] = {"sun", "earth", "mars", "mercury"};
     }
 }
