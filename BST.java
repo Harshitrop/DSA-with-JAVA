@@ -1,4 +1,7 @@
 //import java.util.*;
+
+import java.util.ArrayList;
+
 public class BST {
         static class Node {
             int data;
@@ -73,14 +76,74 @@ public class BST {
             }
             return root;
         }
-        public static Node FindInorderSuccessor(Node root){
-            while (root.left != null) {
-                root = root.left;
-            }return root;
+    public static Node FindInorderSuccessor(Node root){
+        while (root.left != null) {
+            root = root.left;
+        }return root;
+    }
+    public static void PrintInRange(Node root, int x, int y){
+        if(root == null){
+            return;
         }
+        if(root.data >= x && root.data <= y){//Case 1 - if the root is in the range
+            PrintInRange(root.left, x, y);
+            System.out.print(root.data + " ");
+            PrintInRange(root.right, x, y);
+        }
+        else if(root.data < x){//Case 2 - if the root is less than x, then we can ignore the left subtree
+            PrintInRange(root.right, x, y);
+        }
+        else {//Case 3 - if the root is greater than y, then we can ignore the right subtree
+            PrintInRange(root.left, x, y);
+        }
+    }
+    public static void PrintRoot2leaf(Node root, ArrayList<Integer> path){
+        if(root == null){
+            return;
+        }
+        path.add(root.data);
+        if(root.left == null && root.right == null){
+            PrintPath(path);
+        }
+        PrintRoot2leaf(root.left, path);
+        PrintRoot2leaf(root.right, path);
+        path.remove(path.size() - 1);
+    }
+    public static void PrintPath(ArrayList<Integer> path){
+        for(int i = 0; i < path.size(); i++){
+            System.out.print(path.get(i) + "->");
+        }
+        System.out.println("null");
+    }
+
+    //--------Validate BST------
+    public static boolean IsValidBST(Node root, Node min, Node max){
+        if(root == null){
+            return true;
+        }
+        if(min != null && root.data <= min.data){
+            return false;
+        }
+        if(max != null && root.data >= max.data){
+            return false;
+        }
+        return IsValidBST(root.left, min, root) && IsValidBST(root.right, root, max);
+    }
+    //---------Mirror of a BST------
+    public static Node Mirror(Node root){
+        if(root == null){
+            return null;
+        }
+        Node LeftST = Mirror(root.left);
+        Node RightST = Mirror(root.right);
+
+        root.left = RightST;
+        root.right = LeftST;
+        return root;
+    }
 
     public static void main(String args[]) {
-        int val[] = {8,5,3,1,4,6,10,11,14};
+        int val[] = {8,5,3,6,10,11,14};
         Node root = null;
 
         for(int i = 0; i< val.length; i++){
@@ -107,8 +170,17 @@ public class BST {
         // root = Delete(root, 5);
         // System.out.println("After Delete node");
 
-        // inorder(root);
+        inorder(root);
+        System.out.println();
+        // PrintInRange(root, 5, 10);
 
+        // PrintRoot2leaf(root, new ArrayList<>());
+        // PrintPath(new ArrayList<>());
 
+        // System.out.println(IsValidBST(root, null, null));
+
+        Mirror(root);
+        inorder(root);
+        System.out.println();
     }
 }
