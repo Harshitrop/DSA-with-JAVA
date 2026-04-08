@@ -151,13 +151,13 @@ public class BST {
     }
 
     //PreOrder
-    public static void PreOder(Node root){
+    public static void PreOrder(Node root){
         if(root == null){
             return;
         }
         System.out.print(root.data+" ");
-        PreOder(root.left);
-        PreOder(root.right);
+        PreOrder(root.left);
+        PreOrder(root.right);
     } 
 
 
@@ -243,6 +243,41 @@ public class BST {
         }
         return new Info(false, Size, min, max);
     }
+
+        //---Merge  2 BST
+        public static Node mergeBSTs(Node root1, Node root2) {
+            // Step 1: Get Inorder of BST1
+            ArrayList<Integer> arr1 = new ArrayList<>();
+            GetInoder(root1, arr1);
+
+            // Step 2: Get Inorder of BST2
+            ArrayList<Integer> arr2 = new ArrayList<>();
+            GetInoder(root2, arr2);
+
+            // Step 3: Merge the two sorted ArrayLists
+            int i = 0, j = 0;
+            ArrayList<Integer> finalArr = new ArrayList<>();
+
+            while (i < arr1.size() && j < arr2.size()) {
+                if (arr1.get(i) <= arr2.get(j)) {
+                    finalArr.add(arr1.get(i));
+                    i++;
+                } else {
+                    finalArr.add(arr2.get(j));
+                    j++;
+                }
+            }
+            while (i < arr1.size()) {
+                finalArr.add(arr1.get(i));
+                i++;
+            }
+            while (j < arr2.size()) {
+                finalArr.add(arr2.get(j));
+                j++;
+            }
+            // Step 4: Sorted ArrayList -> Balanced BST
+            return CreatrB_BST1(finalArr, 0, finalArr.size() - 1);
+        }
     public static void main(String args[]) {
         // int val[] = {2,3,4,5,6};
         // Node root = null;
@@ -286,7 +321,7 @@ public class BST {
         
         // int arr[] = {3,5,6,8,10,11,12};
         // Node root = CreatrB_BST(arr, 0, arr.length-1);
-        // PreOder(root);
+        // PreOrder(root);
 
 
         //BST to Balance BST
@@ -318,7 +353,7 @@ public class BST {
             Expected BST
        */
         // root = B_BST(root);
-        // PreOder(root);
+        // PreOrder(root);
 
 
         //Size of largest BST in BT
@@ -352,5 +387,40 @@ public class BST {
         */
         // Info info = largestBST(root);
         // System.out.println("Largest BST Size = " + maxBST);
+
+
+        // mearge 3 BST into one
+        /*
+                    2
+                   / \
+                  1   4
+            BST 1
+            */
+            Node root1 = new Node(2);
+            root1.left = new Node(1);
+            root1.right = new Node(4);
+
+            /*
+                    9
+                   /  \
+                  3    12
+            BST 2
+            */
+
+            /*
+            Expected BST
+                      3
+                    /   \
+                   1     9
+                    \   / \
+                     2 4  12  
+            
+            */
+            Node root2 = new Node(9);
+            root2.left = new Node(3);
+            root2.right = new Node(12);
+
+            Node root = mergeBSTs(root1, root2);
+            PreOrder(root);
     }
 }
