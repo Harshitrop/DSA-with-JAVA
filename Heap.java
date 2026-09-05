@@ -1,9 +1,8 @@
-
 //----------Implimantation with JCF------------
 // import java.util.Comparator;
 // import java.util.PriorityQueue; // Java collection Fremwork
 // public class Heap {
-    
+
 //     static class Student implements Comparable<Student> { //Overriding
 //         String name;
 //         int rank;
@@ -12,7 +11,7 @@
 //             this.name = name;
 //             this.rank = rank;
 //         }
-        
+
 //         @Override
 //         public int compareTo(Student s2){
 //             return this.rank - s2.rank;
@@ -35,13 +34,12 @@
 //     }
 // }
 
-
 // --------------------- Implimantation of min Heap -------------------------
 // import java.util.*;
 // public class Heap {
 
 //     static class InnerHeap {
-    
+
 //         ArrayList<Integer> arr = new ArrayList<>();
 
 //         public void add(int data){
@@ -83,7 +81,7 @@
 //                 int temp = arr.get(i);
 //                 arr.set(i, arr.get(minIdx));
 //                 arr.set(minIdx, temp);
-                
+
 //                 Heapify(minIdx);
 //             }
 //         }
@@ -122,13 +120,18 @@
 // }
 
 //----------------- HeapSort-----------
-public class Heap{
+
+import java.awt.Point;
+import java.util.PriorityQueue;
+import java.util.*;
+
+public class Heap {
 
     static class InnerHeap {
 
-        public static void Heapify(int arr[], int i, int size){
-            int left = 2*i+1;
-            int right = 2*i+2;
+        public static void Heapify(int arr[], int i, int size) {
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
             int maxIdx = i;
 
             if (left < size && arr[left] > arr[maxIdx]) {// for min Heap change ">" to "<"
@@ -140,24 +143,24 @@ public class Heap{
             }
 
             if (maxIdx != i) {
-                //swap
+                // swap
                 int temp = arr[i];
                 arr[i] = arr[maxIdx];
                 arr[maxIdx] = temp;
-                
+
                 Heapify(arr, maxIdx, size);
             }
         }
 
-        public static void Heapsort(int arr[]){
-            //step 1 build maxHeap
+        public static void Heapsort(int arr[]) {
+            // step 1 build maxHeap
             int n = arr.length;
-            for(int i = n/2; i >= 0; i--){
+            for (int i = n / 2; i >= 0; i--) {
                 Heapify(arr, i, n);
             }
-            //Step 2 push largest at end
-            for(int i = n-1; i>0; i--){
-                //swap 
+            // Step 2 push largest at end
+            for (int i = n - 1; i > 0; i--) {
+                // swap
                 int temp = arr[0];
                 arr[0] = arr[i];
                 arr[i] = temp;
@@ -165,17 +168,48 @@ public class Heap{
                 Heapify(arr, 0, i);
             }
         }
-    }
 
-    public static void main(String args[]){
-        int arr[] = { 1,2,4,5,3};
-        InnerHeap.Heapsort(arr);
+        // nearby cars
+        public class point implements comparable<point> {
+            int x;
+            int y;
+            int disSQ;
+            int idx;
 
-        //print
-        for(int i =0; i<arr.length; i++){
-            System.out.print(arr[i]+" ");
+            public point(int x, int y, int disSQ, int idx) {
+                this.x = x;
+                this.y = y;
+                this.disSQ = disSQ;
+                this.idx = idx;
+            }
+
+            @Override
+            public int compareTo(point p2) {
+                return this.disSQ - p2.disSQ; // asending order
+            }
         }
-        System.out.println();
     }
 
+    public static void main(String args[]) {
+        // int arr[] = { 1,2,4,5,3};
+        // InnerHeap.Heapsort(arr);
+
+        // print
+        // for(int i =0; i<arr.length; i++){
+        // System.out.print(arr[i]+" ");
+        // }
+        // System.out.println();
+
+        // create priority queue
+        PriorityQueue<Point> pq = new PriorityQueue<>();
+        for (int i = 0; i < pts.length; i++) {
+            int distQS = pts[i][0] * pts[i][0] + pts[i][1] * pts[i][1];
+            pq.add(new Point(pts[i][0], pts[i][1], distSQ, i));
+        }
+
+        // nearest k cars
+        for (int i = 0; i < k; i++) {
+            System.out.println("C" = pq.remove().idx);
+        }
+    }
 }
